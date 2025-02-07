@@ -13,6 +13,7 @@ repositories {
     mavenCentral()
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
+    mavenLocal()
 }
 
 dependencies {
@@ -22,6 +23,9 @@ dependencies {
     implementation("com.composables:composetheme:1.2.0-alpha")
     implementation("com.composables:core:1.11.2")
     implementation("com.composables:icons-lucide:1.0.0")
+
+    // Bitcoin
+    implementation("org.bitcoindevkit:bdk-jvm:1.0.0-KYOTO")
 }
 
 compose.resources {

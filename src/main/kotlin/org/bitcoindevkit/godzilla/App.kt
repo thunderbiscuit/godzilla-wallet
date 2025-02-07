@@ -98,12 +98,12 @@ fun App(viewModel: MainViewModel) {
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
         val isCompact = maxWidth < 600.dp
 
-        LaunchedEffect(state.isIdle) {
-            if (state.isIdle && state.targetDetent == Hidden) {
-                delay(8000)
-                state.currentDetent = Peek
-            }
-        }
+        // LaunchedEffect(state.isIdle) {
+        //     if (state.isIdle && state.targetDetent == Hidden) {
+        //         delay(8000)
+        //         state.currentDetent = Peek
+        //     }
+        // }
 
         ModalBottomSheet(state = state) {
             Scrim(scrimColor = Color.Black.copy(0.3f), enter = fadeIn(), exit = fadeOut())
