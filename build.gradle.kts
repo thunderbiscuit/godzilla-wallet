@@ -18,6 +18,10 @@ repositories {
 dependencies {
     implementation(compose.components.resources)
     implementation(compose.desktop.currentOs)
+
+    implementation("com.composables:composetheme:1.2.0-alpha")
+    implementation("com.composables:core:1.11.2")
+    implementation("com.composables:icons-lucide:1.0.0")
 }
 
 compose.resources {

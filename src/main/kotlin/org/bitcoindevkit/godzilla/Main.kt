@@ -1,9 +1,15 @@
 package org.bitcoindevkit.godzilla
 
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
 import androidx.compose.ui.window.application
 import androidx.compose.ui.window.WindowState
+import com.composables.composetheme.buildComposeTheme
+import org.bitcoindevkit.godzilla.presentation.viewmodels.MainViewModel
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
+
+val MyTheme = buildComposeTheme {  }
 
 fun main() {
     application {
@@ -13,7 +19,22 @@ fun main() {
             resizable = false,
             state = WindowState(width = 900.dp, height = 700.dp),
         ) {
-            App()
+            val mainViewModel: MainViewModel = MainViewModel()
+
+            MenuBar {
+                Menu("Action", mnemonic = 'A') {
+                    Item("New Sale",  onClick = {}, mnemonic = 'N')
+                    Item(
+                        text = "Compact Block Filter Node",
+                        onClick = { mainViewModel.onAction(WalletAction.StartKyoto) },
+                        mnemonic = 'K'
+                    )
+                }
+            }
+
+            MyTheme {
+                App(mainViewModel)
+            }
         }
     }
 }
