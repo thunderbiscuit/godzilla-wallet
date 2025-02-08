@@ -1,4 +1,4 @@
-package org.bitcoindevkit.godzilla
+package org.bitcoindevkit.godzilla.presentation.ui
 
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut

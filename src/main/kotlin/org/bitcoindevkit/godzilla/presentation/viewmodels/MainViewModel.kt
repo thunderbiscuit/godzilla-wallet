@@ -45,7 +45,10 @@ class MainViewModel(val dialogState: DialogState) {
 
     private fun createSale(description: String, amount: ULong) {
         dialogState.visible = true
-        _walletState.value = _walletState.value.copy(closeBottomSheet = true)
+        _walletState.value = _walletState.value.copy(
+            closeBottomSheet = true,
+            newSale = Pair(description, amount)
+        )
     }
 
     private fun bottomSheetClosed() {
