@@ -5,11 +5,14 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.WindowInsets
 import androidx.compose.foundation.layout.WindowInsetsSides
 import androidx.compose.foundation.layout.asPaddingValues
@@ -22,40 +25,59 @@ import androidx.compose.foundation.layout.only
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.statusBarsPadding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.layout.widthIn
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.rounded.Add
+import androidx.compose.foundation.text.BasicText
+import androidx.compose.foundation.text.BasicTextField
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.focus.onFocusChanged
 import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.semantics.Role
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.composables.core.ModalBottomSheet
 import com.composables.core.Scrim
 import com.composables.core.Sheet
 import com.composables.core.SheetDetent
 import com.composables.core.SheetDetent.Companion.Hidden
 import com.composables.core.rememberModalBottomSheetState
-import kotlinx.coroutines.delay
 import org.bitcoindevkit.godzilla.generated.resources.Res
 import org.bitcoindevkit.godzilla.generated.resources.godzilla
 import org.jetbrains.compose.resources.painterResource
 import com.composables.composetheme.ComposeTheme
 import com.composables.composetheme.round
+import com.composables.composetheme.roundFull
+import com.composables.composetheme.roundL
 import com.composables.composetheme.shapes
+import com.composables.core.DragIndication
+import com.composables.icons.lucide.Bitcoin
+import com.composables.icons.lucide.Lucide
+import com.composables.icons.lucide.PencilLine
+import com.composables.icons.lucide.Plus
 import org.bitcoindevkit.godzilla.presentation.viewmodels.MainViewModel
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
 @Composable
 @Preview
-fun App(viewModel: MainViewModel) {
+fun App(
+    viewModel: MainViewModel,
+    walletState: WalletState
+) {
     val Peek = remember {
         SheetDetent("peek") { containerHeight, sheetHeight ->
             containerHeight * 0.6f
@@ -66,10 +88,17 @@ fun App(viewModel: MainViewModel) {
         initialDetent = Hidden,
         detents = listOf(Hidden, Peek)
     )
+    if (walletState.closeBottomSheet) {
+        if (state.currentDetent == Peek) {
+            state.currentDetent = Hidden
+        }
+        viewModel.onAction(WalletAction.BottomSheetClosed)
+    }
 
     Row(
-        Modifier.fillMaxSize(),
+        Modifier.fillMaxSize().padding(bottom = 90.dp),
         horizontalArrangement = Arrangement.Center,
+        verticalAlignment = Alignment.CenterVertically,
     ) {
         Image(
             painter = painterResource(Res.drawable.godzilla),
@@ -78,8 +107,8 @@ fun App(viewModel: MainViewModel) {
                 ColorFilter.tint(Color.Gray.copy(alpha = 0.2f), BlendMode.Modulate)
             } else null,
             modifier = Modifier
-                .height(70.dp)
-                .padding(end = 12.dp, top = 12.dp)
+                .height(120.dp)
+                // .padding(end = 12.dp, top = 12.dp)
         )
     }
 
@@ -89,21 +118,23 @@ fun App(viewModel: MainViewModel) {
                 .clip(ComposeTheme.shapes.round)
                 .clickable(role = Role.Button) { state.currentDetent = Peek }
                 .align(Alignment.BottomEnd)
-                .padding(24.dp)
+                .padding(36.dp)
         ) {
-            Image(Icons.Rounded.Add, null, modifier = Modifier.size(42.dp), colorFilter = ColorFilter.tint(Color(0xFF424242)))
+            Image(
+                Lucide.Plus,
+                null,
+                colorFilter = ColorFilter.tint(Color(0xFF424242)),
+                modifier = Modifier
+                    .size(42.dp),
+            )
         }
     }
 
     BoxWithConstraints(modifier = Modifier.fillMaxSize()) {
-        val isCompact = maxWidth < 600.dp
+        var value1 = remember { mutableStateOf("") }
+        var value2 = remember { mutableStateOf("") }
 
-        // LaunchedEffect(state.isIdle) {
-        //     if (state.isIdle && state.targetDetent == Hidden) {
-        //         delay(8000)
-        //         state.currentDetent = Peek
-        //     }
-        // }
+        val isCompact = maxWidth < 600.dp
 
         ModalBottomSheet(state = state) {
             Scrim(scrimColor = Color.Black.copy(0.3f), enter = fadeIn(), exit = fadeOut())
@@ -121,14 +152,115 @@ fun App(viewModel: MainViewModel) {
                     .imePadding(),
             ) {
                 Box(Modifier.fillMaxWidth().height(600.dp), contentAlignment = Alignment.TopCenter) {
-                    // DragIndication(
-                    //     modifier = Modifier.padding(top = 22.dp)
-                    //         .background(Color.Black.copy(0.4f), ComposeTheme.shapes.roundFull)
-                    //         .width(32.dp)
-                    //         .height(4.dp)
-                    // )
+                    DragIndication(
+                        modifier = Modifier.padding(top = 22.dp)
+                            .background(Color.Black.copy(0.4f), ComposeTheme.shapes.roundFull)
+                            .width(32.dp)
+                            .height(4.dp)
+                    )
+                    SimpleTextFields(value1, value2)
+                }
+
+                Box(
+                    contentAlignment = Alignment.BottomEnd,
+                    modifier = Modifier.fillMaxWidth()
+                        .height(600.dp)
+                        .padding(bottom = 32.dp, end = 42.dp),
+                ) {
+                    Box(
+                        Modifier
+                            .clip(ComposeTheme.shapes.roundL)
+                            .clickable(role = Role.Button) {
+                                viewModel.onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toULong()))
+                            }
+                            .padding(horizontal = 14.dp, vertical = 10.dp)
+                    ) {
+                        BasicText(text = "Create Sale", style = TextStyle(color = Color(0xFF424242), fontSize = 14.sp, fontWeight = FontWeight(600)))
+                    }
                 }
             }
         }
+    }
+}
+
+@Composable
+fun SimpleTextFields(
+    value1: MutableState<String>,
+    value2: MutableState<String>,
+) {
+    // var value1 by remember { mutableStateOf("") }
+    var borderColor1 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
+    var borderDp1 by remember { mutableStateOf(1.dp) }
+
+    // var value2 by remember { mutableStateOf("") }
+    var borderColor2 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
+    var borderDp2 by remember { mutableStateOf(1.dp) }
+
+    Column(
+        modifier = Modifier.padding(vertical = 80.dp, horizontal = 64.dp)
+    ) {
+        BasicTextField(
+            value = value1.value,
+            onValueChange = { value1.value = it },
+            modifier = Modifier
+                .onFocusChanged {
+                    borderColor1 = if (it.isFocused) Color(0xFF212121) else Color(0xFFBDBDBD)
+                    borderDp1 = if (it.isFocused) 2.dp else 1.dp
+                }
+                .fillMaxWidth()
+                .shadow(2.dp, RoundedCornerShape(4.dp))
+                .background(Color.White, RoundedCornerShape(4.dp))
+                .border(borderDp1, borderColor1, RoundedCornerShape(4.dp))
+                .padding(vertical = 16.dp, horizontal = 12.dp),
+            textStyle = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(400)),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(Lucide.PencilLine, null)
+
+                    Box(contentAlignment = Alignment.CenterStart) {
+                        if (value1.value.isBlank()) {
+                            BasicText("Sale Description", style = TextStyle(color = Color(0xFFBDBDBD)))
+                        }
+                        innerTextField()
+                    }
+                }
+            }
+        )
+        Spacer(Modifier.height(16.dp))
+        BasicTextField(
+            value = value2.value,
+            onValueChange = { value2.value = it },
+            modifier = Modifier
+                .onFocusChanged {
+                    borderColor2 = if (it.isFocused) Color(0xFF212121) else Color(0xFFBDBDBD)
+                    borderDp2 = if (it.isFocused) 2.dp else 1.dp
+                }
+                .fillMaxWidth()
+                .shadow(2.dp, RoundedCornerShape(4.dp))
+                .background(Color.White, RoundedCornerShape(4.dp))
+                .border(borderDp2, borderColor2, RoundedCornerShape(4.dp))
+                .padding(vertical = 16.dp, horizontal = 12.dp),
+            textStyle = TextStyle(fontSize = 16.sp, fontWeight = FontWeight(400)),
+            singleLine = true,
+            decorationBox = { innerTextField ->
+                Row(
+                    horizontalArrangement = Arrangement.spacedBy(8.dp),
+                    verticalAlignment = Alignment.CenterVertically
+                ) {
+                    Image(Lucide.Bitcoin, null)
+
+                    Box(contentAlignment = Alignment.CenterStart) {
+                        if (value2.value.isBlank()) {
+                            BasicText("Amount (Satoshis)", style = TextStyle(color = Color(0xFFBDBDBD)))
+                        }
+                        innerTextField()
+                    }
+                }
+            }
+        )
     }
 }

@@ -2,6 +2,7 @@ package org.bitcoindevkit.godzilla.presentation.viewmodels
 
 import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
+import com.composables.core.DialogState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -10,10 +11,10 @@ import org.bitcoindevkit.godzilla.domain.Wallet
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
-class MainViewModel() {
+class MainViewModel(val dialogState: DialogState) {
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val _walletState: MutableState<WalletState> = mutableStateOf(WalletState(kyotoReady = false))
+    private val _walletState: MutableState<WalletState> = mutableStateOf(WalletState(kyotoReady = false, closeBottomSheet = false))
     val walletState: MutableState<WalletState> get() = _walletState
 
     val wallet: Wallet = Wallet()
@@ -21,7 +22,9 @@ class MainViewModel() {
 
     fun onAction(action: WalletAction) {
         when (action) {
-            WalletAction.StartKyoto -> startKyoto()
+            is WalletAction.StartKyoto -> startKyoto()
+            is WalletAction.CreateSale -> createSale(action.description, action.amount)
+            is WalletAction.BottomSheetClosed -> bottomSheetClosed()
         }
     }
 
@@ -38,5 +41,14 @@ class MainViewModel() {
         coroutineScope.launch {
             cbfNode.listenWarnings()
         }
+    }
+
+    private fun createSale(description: String, amount: ULong) {
+        dialogState.visible = true
+        _walletState.value = _walletState.value.copy(closeBottomSheet = true)
+    }
+
+    private fun bottomSheetClosed() {
+        _walletState.value = _walletState.value.copy(closeBottomSheet = false)
     }
 }
