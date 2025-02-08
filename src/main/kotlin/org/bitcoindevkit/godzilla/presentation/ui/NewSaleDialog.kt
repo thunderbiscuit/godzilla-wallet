@@ -28,6 +28,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
+import androidx.compose.ui.graphics.toComposeImageBitmap
 import androidx.compose.ui.semantics.Role
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -85,6 +86,20 @@ fun NewSaleDialog(
                                 colorFilter = ColorFilter.tint(Color(0xFF424242)),
                                 modifier = Modifier
                                     .size(36.dp),
+                            )
+                        }
+                        Box(
+                            Modifier
+                                .clip(ComposeTheme.shapes.round)
+                                .clickable(role = Role.Button) { dialogState.visible = false }
+                                .align(Alignment.Center)
+                                .padding(36.dp)
+                        ) {
+                            val imageBitmap = walletState.newSale?.third?.toComposeImageBitmap()
+                            if (imageBitmap != null) Image(
+                                bitmap = imageBitmap,
+                                contentDescription = "QR Code",
+                                modifier = Modifier.height(420.dp).width(420.dp)
                             )
                         }
                         Column(Modifier.padding(start = 48.dp, top = 48.dp, end = 24.dp)) {

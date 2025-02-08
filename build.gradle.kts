@@ -26,6 +26,10 @@ dependencies {
 
     // Bitcoin
     implementation("org.bitcoindevkit:bdk-jvm:1.0.0-KYOTO")
+
+    // QR Codes
+    implementation("com.google.zxing:core:3.5.3")
+    implementation("com.google.zxing:javase:3.5.3")
 }
 
 compose.resources {

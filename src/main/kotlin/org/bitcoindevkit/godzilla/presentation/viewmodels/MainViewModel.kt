@@ -8,6 +8,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import org.bitcoindevkit.godzilla.domain.CbfNode
 import org.bitcoindevkit.godzilla.domain.Wallet
+import org.bitcoindevkit.godzilla.domain.generateQRCodeImage
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
@@ -45,9 +46,11 @@ class MainViewModel(val dialogState: DialogState) {
 
     private fun createSale(description: String, amount: ULong) {
         dialogState.visible = true
+
+        val qrCode = generateQRCodeImage(description, 600, 600)
         _walletState.value = _walletState.value.copy(
             closeBottomSheet = true,
-            newSale = Pair(description, amount)
+            newSale = Triple(description, amount, qrCode)
         )
     }
 
