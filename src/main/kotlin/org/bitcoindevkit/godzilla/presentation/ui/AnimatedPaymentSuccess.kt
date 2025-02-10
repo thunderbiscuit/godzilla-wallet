@@ -24,6 +24,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.CircleCheckBig
 import com.composables.icons.lucide.Lucide
+import org.bitcoindevkit.godzilla.GodzillaTheme
+import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 
 @Composable
 fun AnimatedSuccess(isVisible: Boolean) {
@@ -53,14 +55,14 @@ fun AnimatedSuccess(isVisible: Boolean) {
             Icon(
                 imageVector = Lucide.CircleCheckBig,
                 contentDescription = "Success",
-                tint = Color(0xff00dcc3),
+                tint = GodzillaColors.GodzillaGreen,
                 modifier = Modifier
                     .size(200.dp)
             )
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Thank you!",
-                style = TextStyle(fontSize = 42.sp, color = Color(0xFFbdbdbd)),
+                style = TextStyle(fontSize = 42.sp, color = GodzillaColors.LightGray),
             )
         }
     }

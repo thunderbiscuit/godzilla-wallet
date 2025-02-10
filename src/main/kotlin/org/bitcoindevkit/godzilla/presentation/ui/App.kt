@@ -68,7 +68,7 @@ import com.composables.icons.lucide.Bitcoin
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.PencilLine
 import com.composables.icons.lucide.Plus
-import org.bitcoindevkit.godzilla.presentation.viewmodels.MainViewModel
+import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
@@ -122,9 +122,8 @@ fun App(
             Image(
                 Lucide.Plus,
                 null,
-                colorFilter = ColorFilter.tint(Color(0xFF474747)),
-                modifier = Modifier
-                    .size(42.dp),
+                colorFilter = ColorFilter.tint(GodzillaColors.MidGray),
+                modifier = Modifier.size(42.dp),
             )
         }
     }
@@ -178,7 +177,7 @@ fun App(
                             }
                             .padding(horizontal = 14.dp, vertical = 10.dp)
                     ) {
-                        BasicText(text = "Create Sale", style = TextStyle(color = Color(0xFF474747), fontSize = 14.sp, fontWeight = FontWeight(600)))
+                        BasicText(text = "Create Sale", style = TextStyle(color = GodzillaColors.MidGray, fontSize = 14.sp, fontWeight = FontWeight(600)))
                     }
                 }
             }
@@ -191,10 +190,10 @@ fun SimpleTextFields(
     value1: MutableState<String>,
     value2: MutableState<String>,
 ) {
-    var borderColor1 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
+    var borderColor1 by remember { mutableStateOf(GodzillaColors.LightGray) }
     var borderDp1 by remember { mutableStateOf(1.dp) }
 
-    var borderColor2 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
+    var borderColor2 by remember { mutableStateOf(GodzillaColors.LightGray) }
     var borderDp2 by remember { mutableStateOf(1.dp) }
 
     Column(
@@ -205,7 +204,7 @@ fun SimpleTextFields(
             onValueChange = { value1.value = it },
             modifier = Modifier
                 .onFocusChanged {
-                    borderColor1 = if (it.isFocused) Color(0xFF212121) else Color(0xFFBDBDBD)
+                    borderColor1 = if (it.isFocused) GodzillaColors.DarkGray else GodzillaColors.LightGray
                     borderDp1 = if (it.isFocused) 2.dp else 1.dp
                 }
                 .fillMaxWidth()
@@ -224,7 +223,7 @@ fun SimpleTextFields(
 
                     Box(contentAlignment = Alignment.CenterStart) {
                         if (value1.value.isBlank()) {
-                            BasicText("Sale Description", style = TextStyle(color = Color(0xFFBDBDBD)))
+                            BasicText("Sale Description", style = TextStyle(color = GodzillaColors.LightGray))
                         }
                         innerTextField()
                     }
@@ -237,7 +236,7 @@ fun SimpleTextFields(
             onValueChange = { value2.value = it },
             modifier = Modifier
                 .onFocusChanged {
-                    borderColor2 = if (it.isFocused) Color(0xFF212121) else Color(0xFFBDBDBD)
+                    borderColor2 = if (it.isFocused) GodzillaColors.DarkGray else GodzillaColors.LightGray
                     borderDp2 = if (it.isFocused) 2.dp else 1.dp
                 }
                 .fillMaxWidth()
@@ -256,7 +255,7 @@ fun SimpleTextFields(
 
                     Box(contentAlignment = Alignment.CenterStart) {
                         if (value2.value.isBlank()) {
-                            BasicText("Amount (Satoshis)", style = TextStyle(color = Color(0xFFBDBDBD)))
+                            BasicText("Amount (Satoshis)", style = TextStyle(color = GodzillaColors.LightGray))
                         }
                         innerTextField()
                     }

@@ -54,6 +54,8 @@ import com.composables.icons.lucide.X
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import com.composables.core.DialogState
 import kotlinx.coroutines.delay
+import org.bitcoindevkit.godzilla.GodzillaTheme
+import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 
 @Composable
@@ -78,8 +80,8 @@ fun NewSaleDialog(
                     .widthIn(min = 280.dp, max = 900.dp)
                     .padding(20.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .border(1.dp, Color(0xFFE4E4E4), RoundedCornerShape(12.dp))
-                    .background(Color(0xFFFFFFFF))
+                    .border(1.dp, GodzillaColors.MidGray, RoundedCornerShape(12.dp))
+                    .background(Color.White)
             ) {
 
                 var showSuccess by remember { mutableStateOf(false) }
@@ -136,7 +138,7 @@ fun SaleData(
             Image(
                 Lucide.X,
                 null,
-                colorFilter = ColorFilter.tint(Color(0xFF424242)),
+                colorFilter = ColorFilter.tint(GodzillaColors.MidGray),
                 modifier = Modifier
                     .size(36.dp),
             )
@@ -156,22 +158,22 @@ fun SaleData(
         Column(Modifier.padding(start = 48.dp, top = 48.dp, end = 24.dp)) {
             BasicText(
                 text = "Sale Description",
-                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = Color(0xFF212121))
+                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = GodzillaColors.DarkGray),
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
                 text = walletState.newSale?.first ?: "No description",
-                style = TextStyle(color = Color(0xFF474747), fontSize = 16.sp)
+                style = TextStyle(color = GodzillaColors.MidGray, fontSize = 16.sp)
             )
             Spacer(Modifier.height(24.dp))
             BasicText(
                 text = "Price",
-                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = Color(0xFF212121))
+                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = GodzillaColors.DarkGray)
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
                 text = "${walletState.newSale?.second.toString()} satoshis",
-                style = TextStyle(color = Color(0xFF474747), fontSize = 16.sp)
+                style = TextStyle(color = GodzillaColors.MidGray, fontSize = 16.sp)
             )
         }
     }
