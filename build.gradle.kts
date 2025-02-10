@@ -14,6 +14,8 @@ repositories {
     maven("https://maven.pkg.jetbrains.space/public/p/compose/dev")
     google()
     mavenLocal()
+    // Snapshots repository, required for org.kotlinbitcointools:bip21
+    maven("https://s01.oss.sonatype.org/content/repositories/snapshots/")
 }
 
 dependencies {
@@ -26,6 +28,7 @@ dependencies {
 
     // Bitcoin
     implementation("org.bitcoindevkit:bdk-jvm:1.0.0-KYOTO")
+    implementation("org.kotlinbitcointools:bip21:0.0.5-SNAPSHOT")
 
     // QR Codes
     implementation("com.google.zxing:core:3.5.3")

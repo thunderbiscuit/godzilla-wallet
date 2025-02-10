@@ -150,7 +150,7 @@ fun SaleData(
         Column(Modifier.padding(start = 48.dp, top = 48.dp, end = 24.dp)) {
             BasicText(
                 text = "Sale Description",
-                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp)
+                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = Color(0xFF212121))
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
@@ -160,7 +160,7 @@ fun SaleData(
             Spacer(Modifier.height(24.dp))
             BasicText(
                 text = "Price",
-                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp)
+                style = TextStyle(fontWeight = FontWeight.Medium, fontSize = 20.sp, color = Color(0xFF212121))
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
