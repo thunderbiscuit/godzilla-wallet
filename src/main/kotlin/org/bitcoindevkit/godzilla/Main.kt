@@ -39,7 +39,12 @@ fun main() {
             GodzillaTheme {
                 App(mainViewModel, mainViewModel.walletState.value)
 
-                NewSaleDialog(dialogState, mainViewModel.walletState.value)
+                NewSaleDialog(
+                    dialogState = dialogState,
+                    closeDialog = { dialogState.visible = false },
+                    walletState = mainViewModel.walletState.value,
+                    onAction = mainViewModel::onAction
+                )
             }
         }
     }

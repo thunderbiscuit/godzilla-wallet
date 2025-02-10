@@ -6,6 +6,8 @@ import com.composables.core.DialogState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import org.bitcoindevkit.Address
+import org.bitcoindevkit.CanonicalTx
 import org.bitcoindevkit.KeychainKind
 import org.bitcointools.bip21.Bip21URI
 import org.bitcoindevkit.godzilla.domain.CbfNode
@@ -15,6 +17,7 @@ import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import org.bitcointools.bip21.parameters.Amount
 import org.bitcointools.bip21.parameters.Label
+import org.rustbitcoin.bitcoin.Network
 
 class MainViewModel(private val dialogState: DialogState) {
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
@@ -25,11 +28,14 @@ class MainViewModel(private val dialogState: DialogState) {
     private val wallet: Wallet = Wallet()
     private val cbfNode = CbfNode(wallet)
 
+    private var waitingForPayment: String? = null
+
     fun onAction(action: WalletAction) {
         when (action) {
             is WalletAction.StartKyoto -> startKyoto()
             is WalletAction.CreateSale -> createSale(action.description, action.amount)
             is WalletAction.BottomSheetClosed -> bottomSheetClosed()
+            is WalletAction.ReadyForNewPayment -> readyForNewPayment()
         }
     }
 
@@ -38,7 +44,7 @@ class MainViewModel(private val dialogState: DialogState) {
         _walletState.value = _walletState.value.copy(kyotoReady = true)
 
         coroutineScope.launch {
-            cbfNode.startSync()
+            cbfNode.startSync(::checkPayments)
         }
         coroutineScope.launch {
             cbfNode.listenLogs()
@@ -58,6 +64,8 @@ class MainViewModel(private val dialogState: DialogState) {
         val bip21String: Bip21URI = Bip21URI(address, bip21Amount, label)
         println(bip21String)
 
+        waitingForPayment(address)
+
         val qrCode = generateQRCodeImage(bip21String.toURI(), 600, 600)
         _walletState.value = _walletState.value.copy(
             closeBottomSheet = true,
@@ -65,7 +73,44 @@ class MainViewModel(private val dialogState: DialogState) {
         )
     }
 
+    private fun waitingForPayment(address: String) {
+        waitingForPayment = address
+
+
+    }
+
     private fun bottomSheetClosed() {
         _walletState.value = _walletState.value.copy(closeBottomSheet = false)
+    }
+
+    private fun checkPayments() {
+        if (waitingForPayment != null) {
+            val transactions: List<CanonicalTx> = wallet.wallet.transactions()
+            println("Looping over transactions to find the payment: $transactions")
+            println("The wallet currently has ${transactions.size} transactions")
+
+            transactions.forEach { transaction ->
+                println("This transaction: $transaction")
+                val outputs = transaction.transaction.output()
+                outputs.forEach { output ->
+                    println("Output: $output")
+                    if (output.value != 0uL) {
+                        println("Script: ${output.scriptPubkey}")
+                        println("Address: ${Address.fromScript(output.scriptPubkey, Network.REGTEST)}")
+
+                        val outputAddress: String = Address.fromScript(output.scriptPubkey, Network.REGTEST).toString()
+
+                        if (waitingForPayment == outputAddress) {
+                            waitingForPayment = null
+                            _walletState.value = _walletState.value.copy(paymentCompleted = true)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private fun readyForNewPayment() {
+        _walletState.value = _walletState.value.copy(paymentCompleted = false)
     }
 }

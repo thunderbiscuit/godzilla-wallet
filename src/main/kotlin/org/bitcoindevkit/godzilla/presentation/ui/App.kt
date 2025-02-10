@@ -134,14 +134,18 @@ fun App(
         var value1 = remember { mutableStateOf("") }
         var value2 = remember { mutableStateOf("") }
 
-        val isCompact = maxWidth < 600.dp
+        // Once a payment has been completed, we reset the text field values
+        if (walletState.paymentCompleted) {
+            value1.value = ""
+            value2.value = ""
+        }
 
         ModalBottomSheet(state = state) {
             Scrim(scrimColor = Color.Black.copy(0.3f), enter = fadeIn(), exit = fadeOut())
             Sheet(
                 modifier = Modifier
                     .padding(top = 12.dp)
-                    .let { if (isCompact) it else it.padding(horizontal = 56.dp) }
+                    .padding(horizontal = 56.dp)
                     .statusBarsPadding()
                     .padding(WindowInsets.navigationBars.only(WindowInsetsSides.Horizontal).asPaddingValues())
                     .shadow(4.dp, RoundedCornerShape(topStart = 28.dp, topEnd = 28.dp))
@@ -188,11 +192,9 @@ fun SimpleTextFields(
     value1: MutableState<String>,
     value2: MutableState<String>,
 ) {
-    // var value1 by remember { mutableStateOf("") }
     var borderColor1 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
     var borderDp1 by remember { mutableStateOf(1.dp) }
 
-    // var value2 by remember { mutableStateOf("") }
     var borderColor2 by remember { mutableStateOf(Color(0xFFBDBDBD)) }
     var borderDp2 by remember { mutableStateOf(1.dp) }
 

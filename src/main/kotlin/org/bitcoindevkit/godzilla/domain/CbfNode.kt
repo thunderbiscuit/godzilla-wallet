@@ -28,7 +28,7 @@ class CbfNode(private val wallet: Wallet) {
         println("Kyoto node started")
     }
 
-    suspend fun startSync() {
+    suspend fun startSync(onUpdate: () -> Unit) {
         println("Starting sync")
         while (true) {
             val update = kyotoClient?.update()
@@ -37,6 +37,7 @@ class CbfNode(private val wallet: Wallet) {
             } else {
                 println("UPDATE: Applying an update to the wallet")
                 wallet.wallet.applyUpdate(update)
+                onUpdate()
             }
             val balance = wallet.wallet.balance()
             println("New balance: ${balance.total.toBtc()}")

@@ -54,11 +54,14 @@ import com.composables.icons.lucide.X
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import com.composables.core.DialogState
 import kotlinx.coroutines.delay
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 
 @Composable
 fun NewSaleDialog(
     dialogState: DialogState,
-    walletState: WalletState
+    closeDialog: () -> Unit,
+    walletState: WalletState,
+    onAction: (WalletAction) -> Unit
 ) {
     Box {
         Dialog(
@@ -79,14 +82,18 @@ fun NewSaleDialog(
                     .background(Color(0xFFFFFFFF))
             ) {
 
-                var paymentCompleted by remember { mutableStateOf(false) }
+                // var paymentCompleted by remember { mutableStateOf(false) }
                 var showSuccess by remember { mutableStateOf(false) }
 
-                LaunchedEffect(paymentCompleted) {
-                    if (paymentCompleted) {
+                LaunchedEffect(walletState.paymentCompleted) {
+                    if (walletState.paymentCompleted) {
                         delay(700)
                         showSuccess = true
+                        delay(3000)
+                        closeDialog()
+                        onAction(WalletAction.ReadyForNewPayment)
                     }
+
                 }
 
                 Column(
@@ -95,7 +102,7 @@ fun NewSaleDialog(
                     AnimatedSuccess(showSuccess)
                     SaleData(
                         walletState = walletState,
-                        paymentCompleted = paymentCompleted,
+                        paymentCompleted = walletState.paymentCompleted,
                         dialogState = dialogState
                     )
                 }
