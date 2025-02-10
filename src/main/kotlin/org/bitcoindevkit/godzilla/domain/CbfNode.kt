@@ -3,12 +3,13 @@ package org.bitcoindevkit.godzilla.domain
 import org.bitcoindevkit.Client
 import org.bitcoindevkit.IpAddress
 import org.bitcoindevkit.LightClientBuilder
+import org.bitcoindevkit.Log
 import org.bitcoindevkit.Peer
 import org.bitcoindevkit.ScanType
 import org.bitcoindevkit.Warning
 
 class CbfNode(private val wallet: Wallet) {
-    var kyotoClient: Client? = null
+    private var kyotoClient: Client? = null
 
     fun startKyoto() {
         println("Starting Kyoto node")
@@ -46,7 +47,7 @@ class CbfNode(private val wallet: Wallet) {
 
     suspend fun listenLogs() {
         while (true) {
-            val nextLog: org.bitcoindevkit.Log = kyotoClient!!.nextLog()
+            val nextLog: Log = kyotoClient!!.nextLog()
             println("LOG: $nextLog")
         }
     }

@@ -23,13 +23,13 @@ fun main() {
             state = WindowState(width = 900.dp, height = 700.dp),
         ) {
             val dialogState = rememberDialogState()
-            val mainViewModel: MainViewModel = MainViewModel(dialogState)
+            val mainViewModel = MainViewModel(dialogState)
 
             MenuBar {
                 Menu("Action", mnemonic = 'A') {
                     Item("New Sale",  onClick = {}, mnemonic = 'N')
                     Item(
-                        text = "Compact Block Filter Node",
+                        text = "Start Compact Block Filter Node",
                         onClick = { mainViewModel.onAction(WalletAction.StartKyoto) },
                         mnemonic = 'K'
                     )
@@ -37,7 +37,10 @@ fun main() {
             }
 
             GodzillaTheme {
-                App(mainViewModel, mainViewModel.walletState.value)
+                App(
+                    walletState = mainViewModel.walletState.value,
+                    onAction = mainViewModel::onAction
+                )
 
                 NewSaleDialog(
                     dialogState = dialogState,

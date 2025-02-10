@@ -82,7 +82,6 @@ fun NewSaleDialog(
                     .background(Color(0xFFFFFFFF))
             ) {
 
-                // var paymentCompleted by remember { mutableStateOf(false) }
                 var showSuccess by remember { mutableStateOf(false) }
 
                 LaunchedEffect(walletState.paymentCompleted) {
@@ -103,7 +102,7 @@ fun NewSaleDialog(
                     SaleData(
                         walletState = walletState,
                         paymentCompleted = walletState.paymentCompleted,
-                        dialogState = dialogState
+                        closeDialog = closeDialog,
                     )
                 }
             }
@@ -115,7 +114,7 @@ fun NewSaleDialog(
 fun SaleData(
     walletState: WalletState,
     paymentCompleted: Boolean,
-    dialogState: DialogState
+    closeDialog: () -> Unit,
 ) {
     val alpha by animateFloatAsState(
         targetValue = if (paymentCompleted) 0f else 1f,
@@ -130,7 +129,7 @@ fun SaleData(
         Box(
             Modifier
                 .clip(ComposeTheme.shapes.round)
-                .clickable(role = Role.Button) { dialogState.visible = false }
+                .clickable(role = Role.Button) { closeDialog() }
                 .align(Alignment.TopEnd)
                 .padding(36.dp)
         ) {

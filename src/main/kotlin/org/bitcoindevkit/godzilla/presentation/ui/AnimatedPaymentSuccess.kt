@@ -60,7 +60,7 @@ fun AnimatedSuccess(isVisible: Boolean) {
             Spacer(modifier = Modifier.height(16.dp))
             Text(
                 text = "Thank you!",
-                style = TextStyle(fontSize = 42.sp, color = Color(0xFFBDBDBD)),
+                style = TextStyle(fontSize = 42.sp, color = Color(0xFFbdbdbd)),
             )
         }
     }

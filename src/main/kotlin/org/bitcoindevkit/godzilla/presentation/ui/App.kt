@@ -75,8 +75,8 @@ import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 @Composable
 @Preview
 fun App(
-    viewModel: MainViewModel,
-    walletState: WalletState
+    walletState: WalletState,
+    onAction: (WalletAction) -> Unit,
 ) {
     val Peek = remember {
         SheetDetent("peek") { containerHeight, sheetHeight ->
@@ -92,7 +92,7 @@ fun App(
         if (state.currentDetent == Peek) {
             state.currentDetent = Hidden
         }
-        viewModel.onAction(WalletAction.BottomSheetClosed)
+        onAction(WalletAction.BottomSheetClosed)
     }
 
     Row(
@@ -103,12 +103,11 @@ fun App(
         Image(
             painter = painterResource(Res.drawable.godzilla),
             "Image of Godzilla",
-            colorFilter = if (!viewModel.walletState.value.kyotoReady) {
+            colorFilter = if (!walletState.kyotoReady) {
                 ColorFilter.tint(Color.Gray.copy(alpha = 0.2f), BlendMode.Modulate)
             } else null,
             modifier = Modifier
                 .height(120.dp)
-                // .padding(end = 12.dp, top = 12.dp)
         )
     }
 
@@ -123,7 +122,7 @@ fun App(
             Image(
                 Lucide.Plus,
                 null,
-                colorFilter = ColorFilter.tint(Color(0xFF424242)),
+                colorFilter = ColorFilter.tint(Color(0xFF474747)),
                 modifier = Modifier
                     .size(42.dp),
             )
@@ -175,11 +174,11 @@ fun App(
                         Modifier
                             .clip(ComposeTheme.shapes.roundL)
                             .clickable(role = Role.Button) {
-                                viewModel.onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toULong()))
+                                onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toULong()))
                             }
                             .padding(horizontal = 14.dp, vertical = 10.dp)
                     ) {
-                        BasicText(text = "Create Sale", style = TextStyle(color = Color(0xFF424242), fontSize = 14.sp, fontWeight = FontWeight(600)))
+                        BasicText(text = "Create Sale", style = TextStyle(color = Color(0xFF474747), fontSize = 14.sp, fontWeight = FontWeight(600)))
                     }
                 }
             }
