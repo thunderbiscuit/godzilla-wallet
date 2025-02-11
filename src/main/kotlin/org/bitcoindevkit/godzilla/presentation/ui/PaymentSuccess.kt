@@ -17,18 +17,16 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.composables.icons.lucide.CircleCheckBig
 import com.composables.icons.lucide.Lucide
-import org.bitcoindevkit.godzilla.GodzillaTheme
 import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 
 @Composable
-fun AnimatedSuccess(isVisible: Boolean) {
+fun PaymentSuccess(isVisible: Boolean) {
     val alpha by animateFloatAsState(
         targetValue = if (isVisible) 1f else 0f,
         animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
