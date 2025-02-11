@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.displayCutoutPadding
@@ -33,7 +32,6 @@ import com.composables.core.Scrim
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import com.composables.core.DialogState
 import kotlinx.coroutines.delay
-import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 
 @Composable
@@ -58,7 +56,6 @@ fun NewSaleDialog(
                     .widthIn(min = 280.dp, max = 900.dp)
                     .padding(20.dp)
                     .clip(RoundedCornerShape(12.dp))
-                    .border(1.dp, GodzillaColors.MidGray, RoundedCornerShape(12.dp))
                     .background(Color.White)
             ) {
 

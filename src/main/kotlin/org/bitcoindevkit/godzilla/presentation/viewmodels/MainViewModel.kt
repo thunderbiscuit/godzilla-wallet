@@ -13,12 +13,19 @@ import org.bitcointools.bip21.Bip21URI
 import org.bitcoindevkit.godzilla.domain.CbfNode
 import org.bitcoindevkit.godzilla.domain.Wallet
 import org.bitcoindevkit.godzilla.domain.generateQRCodeImage
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.NewSale
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import org.bitcointools.bip21.parameters.Amount
 import org.bitcointools.bip21.parameters.Label
 import org.rustbitcoin.bitcoin.Network
 
+/*
+ * This application uses the MVI pattern of domain level state management for composables. Composables are passed the
+ * MainViewModel::onAction method and call it with a given `WalletAction` on given events, which the viewmodel then uses
+ * to trigger the appropriate domain logic, and most often emit a new `WalletState` object which the composables then
+ * use to re-render UI elements that make use of those state data objects.
+ */
 class MainViewModel(private val dialogState: DialogState) {
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
@@ -64,19 +71,13 @@ class MainViewModel(private val dialogState: DialogState) {
         val bip21String: Bip21URI = Bip21URI(address, bip21Amount, label)
         println(bip21String)
 
-        waitingForPayment(address)
+        waitingForPayment = address
 
         val qrCode = generateQRCodeImage(bip21String.toURI(), 600, 600)
         _walletState.value = _walletState.value.copy(
             closeBottomSheet = true,
             newSale = NewSale(description, amount, qrCode)
         )
-    }
-
-    private fun waitingForPayment(address: String) {
-        waitingForPayment = address
-
-
     }
 
     private fun bottomSheetClosed() {
