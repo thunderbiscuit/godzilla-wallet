@@ -1,6 +1,7 @@
 package org.bitcoindevkit.godzilla.domain
 
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
 import com.google.zxing.BarcodeFormat
 import com.google.zxing.MultiFormatWriter
 import com.google.zxing.client.j2se.MatrixToImageConfig
@@ -12,8 +13,8 @@ import java.awt.image.BufferedImage
 fun generateQRCodeImage(content: String, width: Int, height: Int): BufferedImage {
     val bitMatrix: BitMatrix = MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height)
 
-    val darkSquares: Int = GodzillaColors.DarkGray.value.toInt()
-    val background: Int = Color.White.value.toInt()
+    val darkSquares: Int = GodzillaColors.DarkGray.toArgb()
+    val background: Int = Color.White.toArgb()
     val config = MatrixToImageConfig(darkSquares, background)
 
     return MatrixToImageWriter.toBufferedImage(bitMatrix, config)
