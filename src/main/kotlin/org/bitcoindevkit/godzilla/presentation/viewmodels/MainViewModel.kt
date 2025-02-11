@@ -35,6 +35,8 @@ class MainViewModel(private val dialogState: DialogState) {
     private val wallet: Wallet = Wallet()
     private val cbfNode = CbfNode(wallet)
 
+    // This variable becomes a bitcoin address once we are on the NewSaleDialog and the app is waiting for a payment to
+    // this address to come through. Once it happens, we clear the variable and set it back to null.
     private var waitingForPayment: String? = null
 
     fun onAction(action: WalletAction) {
