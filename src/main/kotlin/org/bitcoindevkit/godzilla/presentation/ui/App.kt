@@ -173,7 +173,7 @@ fun App(
                         Modifier
                             .clip(ComposeTheme.shapes.roundL)
                             .clickable(role = Role.Button) {
-                                onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toULong()))
+                                onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toLong()))
                             }
                             .padding(horizontal = 14.dp, vertical = 10.dp)
                     ) {

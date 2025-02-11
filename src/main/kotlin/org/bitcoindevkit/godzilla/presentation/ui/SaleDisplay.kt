@@ -71,12 +71,14 @@ fun SaleDisplay(
                 .align(Alignment.Center)
                 .padding(36.dp)
         ) {
-            val imageBitmap = walletState.newSale?.third?.toComposeImageBitmap()
-            if (imageBitmap != null) Image(
-                bitmap = imageBitmap,
-                contentDescription = "QR Code",
-                modifier = Modifier.height(420.dp).width(420.dp)
-            )
+            val imageBitmap = walletState.newSale?.qrCode?.toComposeImageBitmap()
+            if (imageBitmap != null) {
+                Image(
+                    bitmap = imageBitmap,
+                    contentDescription = "QR Code",
+                    modifier = Modifier.height(420.dp).width(420.dp)
+                )
+            }
         }
         Column(Modifier.padding(start = 48.dp, top = 48.dp, end = 24.dp)) {
             BasicText(
@@ -85,7 +87,7 @@ fun SaleDisplay(
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
-                text = walletState.newSale?.first ?: "No description",
+                text = walletState.newSale?.description ?: "No description",
                 style = TextStyle(color = GodzillaColors.MidGray, fontSize = 16.sp)
             )
             Spacer(Modifier.height(24.dp))
@@ -95,7 +97,7 @@ fun SaleDisplay(
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
-                text = "${walletState.newSale?.second.toString()} satoshis",
+                text = "${walletState.newSale?.amount.toString()} satoshis",
                 style = TextStyle(color = GodzillaColors.MidGray, fontSize = 16.sp)
             )
         }

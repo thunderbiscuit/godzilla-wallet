@@ -54,11 +54,11 @@ class MainViewModel(private val dialogState: DialogState) {
         }
     }
 
-    private fun createSale(description: String, amount: ULong) {
+    private fun createSale(description: String, amount: Long) {
         dialogState.visible = true
 
         val address: String = wallet.wallet.revealNextAddress(KeychainKind.EXTERNAL).address.toString()
-        val bip21Amount: Amount = Amount(amount.toLong())
+        val bip21Amount: Amount = Amount(amount)
         val label: Label = Label(description)
 
         val bip21String: Bip21URI = Bip21URI(address, bip21Amount, label)
@@ -69,7 +69,7 @@ class MainViewModel(private val dialogState: DialogState) {
         val qrCode = generateQRCodeImage(bip21String.toURI(), 600, 600)
         _walletState.value = _walletState.value.copy(
             closeBottomSheet = true,
-            newSale = Triple(description, amount, qrCode)
+            newSale = NewSale(description, amount, qrCode)
         )
     }
 
