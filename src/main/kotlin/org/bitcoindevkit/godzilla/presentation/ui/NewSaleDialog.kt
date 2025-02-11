@@ -6,7 +6,6 @@ import androidx.compose.animation.fadeOut
 import androidx.compose.animation.scaleIn
 import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.background
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.displayCutoutPadding
 import androidx.compose.foundation.layout.height
@@ -37,51 +36,48 @@ import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 @Composable
 fun NewSaleDialog(
     dialogState: DialogState,
-    closeDialog: () -> Unit,
     walletState: WalletState,
     onAction: (WalletAction) -> Unit
 ) {
-    Box {
-        Dialog(
-            properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = false),
-            state = dialogState
+    Dialog(
+        properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = false),
+        state = dialogState
+    ) {
+        Scrim(scrimColor = Color.Black.copy(0.3f), exit = fadeOut(tween(durationMillis = 300)))
+        DialogPanel(
+            enter = scaleIn(initialScale = 0.4f) + fadeIn(tween(durationMillis = 600)),
+            exit = scaleOut(targetScale = 0.6f) + fadeOut(tween(durationMillis = 300)),
+            modifier = Modifier
+                .displayCutoutPadding()
+                .systemBarsPadding()
+                .widthIn(min = 280.dp, max = 900.dp)
+                .padding(20.dp)
+                .clip(RoundedCornerShape(12.dp))
+                .background(Color.White)
         ) {
-            Scrim(scrimColor = Color.Black.copy(0.3f), exit = fadeOut(tween(durationMillis = 300)))
-            DialogPanel(
-                enter = scaleIn(initialScale = 0.4f) + fadeIn(tween(durationMillis = 600)),
-                exit = scaleOut(targetScale = 0.6f) + fadeOut(tween(durationMillis = 300)),
-                modifier = Modifier
-                    .displayCutoutPadding()
-                    .systemBarsPadding()
-                    .widthIn(min = 280.dp, max = 900.dp)
-                    .padding(20.dp)
-                    .clip(RoundedCornerShape(12.dp))
-                    .background(Color.White)
+
+            var showSuccess by remember { mutableStateOf(false) }
+
+            LaunchedEffect(walletState.paymentCompleted) {
+                if (walletState.paymentCompleted) {
+                    delay(700)
+                    showSuccess = true
+                    delay(3000)
+                    onAction(WalletAction.DismissDialog)
+                    onAction(WalletAction.ReadyForNewPayment)
+                }
+
+            }
+
+            Column(
+                Modifier.height(600.dp).width(900.dp)
             ) {
-
-                var showSuccess by remember { mutableStateOf(false) }
-
-                LaunchedEffect(walletState.paymentCompleted) {
-                    if (walletState.paymentCompleted) {
-                        delay(700)
-                        showSuccess = true
-                        delay(3000)
-                        closeDialog()
-                        onAction(WalletAction.ReadyForNewPayment)
-                    }
-
-                }
-
-                Column(
-                    Modifier.height(600.dp).width(900.dp)
-                ) {
-                    PaymentSuccess(showSuccess)
-                    SaleDisplay(
-                        walletState = walletState,
-                        paymentCompleted = walletState.paymentCompleted,
-                        closeDialog = closeDialog,
-                    )
-                }
+                PaymentSuccess(showSuccess)
+                SaleDisplay(
+                    walletState = walletState,
+                    paymentCompleted = walletState.paymentCompleted,
+                    onAction = onAction,
+                )
             }
         }
     }

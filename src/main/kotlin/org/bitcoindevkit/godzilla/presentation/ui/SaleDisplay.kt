@@ -35,13 +35,14 @@ import com.composables.composetheme.shapes
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.X
 import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
 @Composable
 fun SaleDisplay(
     walletState: WalletState,
     paymentCompleted: Boolean,
-    closeDialog: () -> Unit,
+    onAction: (WalletAction) -> Unit,
 ) {
     val alpha by animateFloatAsState(
         targetValue = if (paymentCompleted) 0f else 1f,
@@ -56,7 +57,7 @@ fun SaleDisplay(
         Box(
             Modifier
                 .clip(ComposeTheme.shapes.round)
-                .clickable(role = Role.Button) { closeDialog() }
+                .clickable(role = Role.Button) { onAction(WalletAction.DismissDialog) }
                 .align(Alignment.TopEnd)
                 .padding(36.dp)
         ) {

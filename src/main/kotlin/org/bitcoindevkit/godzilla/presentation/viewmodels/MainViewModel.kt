@@ -29,7 +29,7 @@ import org.rustbitcoin.bitcoin.Network
 class MainViewModel(private val dialogState: DialogState) {
     private val coroutineScope: CoroutineScope = CoroutineScope(Dispatchers.IO)
 
-    private val _walletState: MutableState<WalletState> = mutableStateOf(WalletState(kyotoReady = false, closeBottomSheet = false))
+    private val _walletState: MutableState<WalletState> = mutableStateOf(WalletState())
     val walletState: MutableState<WalletState> get() = _walletState
 
     private val wallet: Wallet = Wallet()
@@ -41,9 +41,11 @@ class MainViewModel(private val dialogState: DialogState) {
 
     fun onAction(action: WalletAction) {
         when (action) {
-            is WalletAction.StartKyoto -> startKyoto()
-            is WalletAction.CreateSale -> createSale(action.description, action.amount)
-            is WalletAction.BottomSheetClosed -> bottomSheetClosed()
+            is WalletAction.StartKyoto         -> startKyoto()
+            is WalletAction.CreateSale         -> createSale(action.description, action.amount)
+            is WalletAction.BottomSheetClosed  -> bottomSheetClosed()
+            is WalletAction.OpenDialog         -> dialogState.visible = true
+            is WalletAction.DismissDialog      -> dialogState.visible = false
             is WalletAction.ReadyForNewPayment -> readyForNewPayment()
         }
     }

@@ -59,7 +59,6 @@ fun main() {
 
                 NewSaleDialog(
                     dialogState = dialogState,
-                    closeDialog = { dialogState.visible = false },
                     walletState = mainViewModel.walletState.value,
                     onAction = mainViewModel::onAction
                 )

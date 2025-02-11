@@ -3,8 +3,8 @@ package org.bitcoindevkit.godzilla.presentation.viewmodels.mvi
 import java.awt.image.BufferedImage
 
 data class WalletState(
-    val kyotoReady: Boolean,
-    val closeBottomSheet: Boolean,
+    val kyotoReady: Boolean = false,
+    val closeBottomSheet: Boolean = false,
     val newSale: NewSale? = null,
     val paymentCompleted: Boolean = false
 )
