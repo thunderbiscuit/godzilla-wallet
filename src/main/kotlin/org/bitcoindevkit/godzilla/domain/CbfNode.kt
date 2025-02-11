@@ -7,6 +7,7 @@ import org.bitcoindevkit.Log
 import org.bitcoindevkit.Peer
 import org.bitcoindevkit.ScanType
 import org.bitcoindevkit.Warning
+import java.io.File
 
 class CbfNode(private val wallet: Wallet) {
     private var kyotoClient: Client? = null
@@ -17,8 +18,12 @@ class CbfNode(private val wallet: Wallet) {
         val peer1: Peer = Peer(ip, 18444u, false) // Regtest
         val peers: List<Peer> = listOf(peer1)
 
+        val homeDir = System.getProperty("user.home")
+        val kyotoDir = ".godzilla/kyotodata/"
+        val directory = File(homeDir, kyotoDir)
+
         val (client, node) = LightClientBuilder()
-            .dataDir("./kyotodata/")
+            .dataDir(directory.path)
             .peers(peers)
             .connections(1u)
             .scanType(ScanType.New)
