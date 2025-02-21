@@ -1,9 +1,11 @@
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
+import org.jlleitschuh.gradle.ktlint.reporter.ReporterType
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.0"
     id("org.jetbrains.compose") version "1.7.3"
     id("org.jetbrains.kotlin.plugin.compose") version "2.1.0"
+    id("org.jlleitschuh.gradle.ktlint") version "12.1.2"
 }
 
 group = "org.bitcoindevkit"
@@ -55,5 +57,13 @@ compose.desktop {
                 iconFile.set(project.file("Godzilla.icns"))
             }
         }
+    }
+}
+
+ktlint {
+    version = "1.5.0"
+    ignoreFailures = false
+    reporters {
+        reporter(ReporterType.PLAIN).apply { outputToConsole = true }
     }
 }
