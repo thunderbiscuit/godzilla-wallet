@@ -8,8 +8,8 @@ package org.bitcoindevkit.godzilla
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.window.MenuBar
 import androidx.compose.ui.window.Window
-import androidx.compose.ui.window.application
 import androidx.compose.ui.window.WindowState
+import androidx.compose.ui.window.application
 import com.composables.composetheme.buildComposeTheme
 import com.composables.core.rememberDialogState
 import org.bitcoindevkit.godzilla.presentation.ui.App
@@ -17,7 +17,7 @@ import org.bitcoindevkit.godzilla.presentation.ui.NewSaleDialog
 import org.bitcoindevkit.godzilla.presentation.viewmodels.MainViewModel
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 
-val GodzillaTheme = buildComposeTheme {  }
+val GodzillaTheme = buildComposeTheme { }
 
 /*
  * The entry point for the app. This variant does not have any navigation component, and simply uses a dialog sitting
@@ -44,7 +44,7 @@ fun main() {
 
             MenuBar {
                 Menu("Action", mnemonic = 'A') {
-                    Item("New Sale",  onClick = {}, mnemonic = 'N')
+                    Item("New Sale", onClick = {}, mnemonic = 'N')
                     Item(
                         text = "Start Compact Block Filter Node",
                         onClick = { mainViewModel.onAction(WalletAction.StartKyoto) },

@@ -1,6 +1,9 @@
 @list:
   just --list
 
+clean:
+  ./gradlew clean
+
 run:
   ./gradlew run
 

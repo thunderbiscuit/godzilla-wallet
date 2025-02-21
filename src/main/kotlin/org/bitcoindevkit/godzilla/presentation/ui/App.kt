@@ -54,35 +54,33 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.composables.core.ModalBottomSheet
-import com.composables.core.Scrim
-import com.composables.core.Sheet
-import com.composables.core.SheetDetent
-import com.composables.core.SheetDetent.Companion.Hidden
-import com.composables.core.rememberModalBottomSheetState
-import org.bitcoindevkit.godzilla.generated.resources.Res
-import org.bitcoindevkit.godzilla.generated.resources.godzilla
-import org.jetbrains.compose.resources.painterResource
 import com.composables.composetheme.ComposeTheme
 import com.composables.composetheme.round
 import com.composables.composetheme.roundFull
 import com.composables.composetheme.roundL
 import com.composables.composetheme.shapes
 import com.composables.core.DragIndication
+import com.composables.core.ModalBottomSheet
+import com.composables.core.Scrim
+import com.composables.core.Sheet
+import com.composables.core.SheetDetent
+import com.composables.core.SheetDetent.Companion.Hidden
+import com.composables.core.rememberModalBottomSheetState
 import com.composables.icons.lucide.Bitcoin
 import com.composables.icons.lucide.Lucide
 import com.composables.icons.lucide.PencilLine
 import com.composables.icons.lucide.Plus
+import org.bitcoindevkit.godzilla.generated.resources.Res
+import org.bitcoindevkit.godzilla.generated.resources.godzilla
 import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
+import org.jetbrains.compose.resources.painterResource
 
 @Composable
 @Preview
-fun App(
-    walletState: WalletState,
-    onAction: (WalletAction) -> Unit,
-) {
+fun App(walletState: WalletState, onAction: (WalletAction) -> Unit) {
+    @Suppress("ktlint:standard:property-naming")
     val Peek = remember {
         SheetDetent("peek") { containerHeight, sheetHeight ->
             containerHeight * 0.6f
@@ -110,7 +108,9 @@ fun App(
             "Image of Godzilla",
             colorFilter = if (!walletState.kyotoReady) {
                 ColorFilter.tint(Color.Gray.copy(alpha = 0.2f), BlendMode.Modulate)
-            } else null,
+            } else {
+                null
+            },
             modifier = Modifier
                 .height(120.dp)
         )
@@ -160,7 +160,8 @@ fun App(
             ) {
                 Box(Modifier.fillMaxWidth().height(600.dp), contentAlignment = Alignment.TopCenter) {
                     DragIndication(
-                        modifier = Modifier.padding(top = 22.dp)
+                        modifier = Modifier
+                            .padding(top = 22.dp)
                             .background(Color.Black.copy(0.4f), ComposeTheme.shapes.roundFull)
                             .width(32.dp)
                             .height(4.dp)
@@ -170,7 +171,8 @@ fun App(
 
                 Box(
                     contentAlignment = Alignment.BottomEnd,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier
+                        .fillMaxWidth()
                         .height(600.dp)
                         .padding(bottom = 32.dp, end = 42.dp),
                 ) {
@@ -178,11 +180,19 @@ fun App(
                         Modifier
                             .clip(ComposeTheme.shapes.roundL)
                             .clickable(role = Role.Button) {
-                                onAction(WalletAction.CreateSale(description = value1.value, amount = value2.value.toLong()))
-                            }
-                            .padding(horizontal = 14.dp, vertical = 10.dp)
+                                onAction(
+                                    WalletAction.CreateSale(description = value1.value, amount = value2.value.toLong())
+                                )
+                            }.padding(horizontal = 14.dp, vertical = 10.dp)
                     ) {
-                        BasicText(text = "Create Sale", style = TextStyle(color = GodzillaColors.MidGray, fontSize = 14.sp, fontWeight = FontWeight(600)))
+                        BasicText(
+                            text = "Create Sale",
+                            style = TextStyle(
+                                color = GodzillaColors.MidGray,
+                                fontSize = 14.sp,
+                                fontWeight = FontWeight(600)
+                            )
+                        )
                     }
                 }
             }
@@ -191,10 +201,7 @@ fun App(
 }
 
 @Composable
-fun SimpleTextFields(
-    value1: MutableState<String>,
-    value2: MutableState<String>,
-) {
+fun SimpleTextFields(value1: MutableState<String>, value2: MutableState<String>) {
     var borderColor1 by remember { mutableStateOf(GodzillaColors.LightGray) }
     var borderDp1 by remember { mutableStateOf(1.dp) }
 
@@ -211,8 +218,7 @@ fun SimpleTextFields(
                 .onFocusChanged {
                     borderColor1 = if (it.isFocused) GodzillaColors.DarkGray else GodzillaColors.LightGray
                     borderDp1 = if (it.isFocused) 2.dp else 1.dp
-                }
-                .fillMaxWidth()
+                }.fillMaxWidth()
                 .shadow(2.dp, RoundedCornerShape(4.dp))
                 .background(Color.White, RoundedCornerShape(4.dp))
                 .border(borderDp1, borderColor1, RoundedCornerShape(4.dp))
@@ -243,8 +249,7 @@ fun SimpleTextFields(
                 .onFocusChanged {
                     borderColor2 = if (it.isFocused) GodzillaColors.DarkGray else GodzillaColors.LightGray
                     borderDp2 = if (it.isFocused) 2.dp else 1.dp
-                }
-                .fillMaxWidth()
+                }.fillMaxWidth()
                 .shadow(2.dp, RoundedCornerShape(4.dp))
                 .background(Color.White, RoundedCornerShape(4.dp))
                 .border(borderDp2, borderColor2, RoundedCornerShape(4.dp))

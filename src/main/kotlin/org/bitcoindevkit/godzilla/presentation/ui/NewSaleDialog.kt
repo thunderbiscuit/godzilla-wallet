@@ -32,18 +32,14 @@ import androidx.compose.ui.unit.dp
 import com.composables.core.Dialog
 import com.composables.core.DialogPanel
 import com.composables.core.DialogProperties
-import com.composables.core.Scrim
-import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import com.composables.core.DialogState
+import com.composables.core.Scrim
 import kotlinx.coroutines.delay
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
+import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
 @Composable
-fun NewSaleDialog(
-    dialogState: DialogState,
-    walletState: WalletState,
-    onAction: (WalletAction) -> Unit
-) {
+fun NewSaleDialog(dialogState: DialogState, walletState: WalletState, onAction: (WalletAction) -> Unit) {
     Dialog(
         properties = DialogProperties(dismissOnClickOutside = true, dismissOnBackPress = false),
         state = dialogState
@@ -60,7 +56,6 @@ fun NewSaleDialog(
                 .clip(RoundedCornerShape(12.dp))
                 .background(Color.White)
         ) {
-
             var showSuccess by remember { mutableStateOf(false) }
 
             LaunchedEffect(walletState.paymentCompleted) {
@@ -71,7 +66,6 @@ fun NewSaleDialog(
                     onAction(WalletAction.DismissDialog)
                     onAction(WalletAction.ReadyForNewPayment)
                 }
-
             }
 
             Column(

@@ -14,13 +14,13 @@ import kotlinx.coroutines.launch
 import org.bitcoindevkit.Address
 import org.bitcoindevkit.CanonicalTx
 import org.bitcoindevkit.KeychainKind
-import org.bitcointools.bip21.Bip21URI
 import org.bitcoindevkit.godzilla.domain.CbfNode
 import org.bitcoindevkit.godzilla.domain.Wallet
 import org.bitcoindevkit.godzilla.domain.generateQRCodeImage
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.NewSale
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
+import org.bitcointools.bip21.Bip21URI
 import org.bitcointools.bip21.parameters.Amount
 import org.bitcointools.bip21.parameters.Label
 import org.rustbitcoin.bitcoin.Network
@@ -44,6 +44,7 @@ class MainViewModel(private val dialogState: DialogState) {
     // this address to come through. Once it happens, we clear the variable and set it back to null.
     private var waitingForPayment: String? = null
 
+    @Suppress("ktlint:standard:no-multi-spaces")
     fun onAction(action: WalletAction) {
         when (action) {
             is WalletAction.StartKyoto         -> startKyoto()
@@ -73,7 +74,10 @@ class MainViewModel(private val dialogState: DialogState) {
     private fun createSale(description: String, amount: Long) {
         dialogState.visible = true
 
-        val address: String = wallet.wallet.revealNextAddress(KeychainKind.EXTERNAL).address.toString()
+        val address: String = wallet.wallet
+            .revealNextAddress(KeychainKind.EXTERNAL)
+            .address
+            .toString()
         val bip21Amount: Amount = Amount(amount)
         val label: Label = Label(description)
 

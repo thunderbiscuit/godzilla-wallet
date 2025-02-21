@@ -44,11 +44,7 @@ import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
 @Composable
-fun SaleDisplay(
-    walletState: WalletState,
-    paymentCompleted: Boolean,
-    onAction: (WalletAction) -> Unit,
-) {
+fun SaleDisplay(walletState: WalletState, paymentCompleted: Boolean, onAction: (WalletAction) -> Unit) {
     val alpha by animateFloatAsState(
         targetValue = if (paymentCompleted) 0f else 1f,
         animationSpec = tween(durationMillis = 500, easing = FastOutSlowInEasing),
@@ -85,7 +81,8 @@ fun SaleDisplay(
                     bitmap = imageBitmap,
                     contentDescription = "QR Code",
                     modifier = Modifier
-                        .height(400.dp).width(400.dp)
+                        .height(400.dp)
+                        .width(400.dp)
                         .border(width = 6.dp, color = GodzillaColors.GodzillaGreen, shape = RoundedCornerShape(24.dp))
                 )
             }
@@ -107,7 +104,7 @@ fun SaleDisplay(
             )
             Spacer(Modifier.height(8.dp))
             BasicText(
-                text = "${walletState.newSale?.amount.toString()} satoshis",
+                text = "${walletState.newSale?.amount} satoshis",
                 style = TextStyle(color = GodzillaColors.MidGray, fontSize = 16.sp)
             )
         }

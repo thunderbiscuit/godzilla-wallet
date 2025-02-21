@@ -66,4 +66,9 @@ ktlint {
     reporters {
         reporter(ReporterType.PLAIN).apply { outputToConsole = true }
     }
+    filter {
+        // For some reason the plugin includes files in the
+        // build/generated/compose/resourceGenerator/kotlin/mainResourceCollectors directory, which we don't control
+        exclude { it.file.path.contains("resourceGenerator") }
+    }
 }
