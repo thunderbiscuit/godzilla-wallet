@@ -38,6 +38,10 @@ import kotlinx.coroutines.delay
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
+/*
+ * The NewSaleDialog is drawn on top of (and covers most of) the base screen, removing the need for a navigation
+ * component in this fairly simple application.
+ */
 @Composable
 fun NewSaleDialog(dialogState: DialogState, walletState: WalletState, onAction: (WalletAction) -> Unit) {
     Dialog(

@@ -7,6 +7,9 @@ package org.bitcoindevkit.godzilla.presentation.theme
 
 import androidx.compose.ui.graphics.Color
 
+/*
+ * This object allows us to use colors across the app easily by calling them like so: GodzillaColors.LightGray.
+ */
 object GodzillaColors {
     val DarkGray = Color(0xff212121)
     val MidGray = Color(0xff474747)

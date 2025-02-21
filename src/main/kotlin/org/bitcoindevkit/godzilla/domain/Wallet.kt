@@ -10,6 +10,9 @@ import org.bitcoindevkit.Descriptor
 import org.rustbitcoin.bitcoin.Network
 import org.bitcoindevkit.Wallet as BdkJvmWallet
 
+/*
+ * A wrapper around the bdk-jvm `Wallet` class.
+ */
 class Wallet() {
     private val descriptor: Descriptor =
         Descriptor(

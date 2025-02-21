@@ -30,6 +30,10 @@ import com.composables.icons.lucide.CircleCheckBig
 import com.composables.icons.lucide.Lucide
 import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 
+/*
+ * This is the animation triggered once the payment has come through. A green checkmark with a "Thank you!" message,
+ * sliding in from the right.
+ */
 @Composable
 fun PaymentSuccess(isVisible: Boolean) {
     val alpha by animateFloatAsState(

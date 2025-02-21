@@ -15,6 +15,10 @@ import com.google.zxing.common.BitMatrix
 import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import java.awt.image.BufferedImage
 
+/*
+ * Working with the zxing library is usually not a particularly fun affair. This is a utility method to produce the
+ * image we need while choosing colors and size.
+ */
 fun generateQRCodeImage(content: String, width: Int, height: Int): BufferedImage {
     val bitMatrix: BitMatrix = MultiFormatWriter().encode(content, BarcodeFormat.QR_CODE, width, height)
 

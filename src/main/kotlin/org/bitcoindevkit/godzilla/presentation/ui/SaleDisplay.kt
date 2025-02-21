@@ -43,6 +43,10 @@ import org.bitcoindevkit.godzilla.presentation.theme.GodzillaColors
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 
+/*
+ * SaleDisplay is the component drawn into the dialog when the application is offering a QR code to the customer for
+ * payment and is waiting for the payment to go through. It contains metadata about the sale as well as the QR code.
+ */
 @Composable
 fun SaleDisplay(walletState: WalletState, paymentCompleted: Boolean, onAction: (WalletAction) -> Unit) {
     val alpha by animateFloatAsState(
