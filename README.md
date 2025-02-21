@@ -6,6 +6,10 @@ There are currently 2 variants of the application, each maintained on a separate
 - [`variant/mvp`](https://github.com/thunderbiscuit/godzilla-wallet/tree/variant/mvp) — Simple template showcasing the dev setup, dependencies, and workflow
 - [`variant/kyoto`](https://github.com/thunderbiscuit/godzilla-wallet/tree/variant/point-of-sale) — Point of sale application with Compact Block Filter client on regtest
 
+<p align="center">
+    <img src="./images/image.png" width="600">
+</p>
+
 ## Usage
 
 1. Ensure you have a local regtest network live, with peer available at `127.0.0.1:18444` (currently hardcoded).
