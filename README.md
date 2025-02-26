@@ -24,7 +24,10 @@ There are currently 2 variants of the application, each maintained on a separate
 ## Quick info
 
 - The Material 3 components from Google are readily available in Compose for Desktop, but they look and feel a bit too much like a stock Android app IMO.
-- You can find custom compose components at [composables.com](https://composables.com/) and [compose unstyled](https://composeunstyled.com/).
+- You can find custom compose components at:
+  - [composables.com](https://composables.com/)
+  - [Compose Unstyled](https://composeunstyled.com/)
+  - [Carbon Compose](https://github.com/gabrieldrn/carbon-compose) ([catalog](https://gabrieldrn.github.io/carbon-compose/catalog/index.html))
 - This application uses [Lucide Icons](https://lucide.dev/), which are made available for compose directly through [compose icons](https://composeicons.com/icon-libraries/lucide).
 - The application uses the MVI pattern for domain-level state management.
 - The application writes data to the `~/.godzilla/` directory.
