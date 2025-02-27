@@ -1,0 +1,40 @@
+<configuration>
+    <!-- Console appender -->
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{YYYY-MM-dd HH:mm:ss} [%thread] %-5level %16logger | %msg%n</pattern>
+        </encoder>
+    </appender>
+    <timestamp key="timestamp" datePattern="yyyy-MM-dd-HH:mm" />
+
+    <!-- Info logs file appender -->
+    <appender name="INFO_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${HOME}/.godzilla/logs/main.log</file>
+        <encoder>
+            <pattern>%date{YYYY-MM-dd HH:mm:ss} %-5level | %message%n</pattern>
+            <!-- This pattern adds the logger name to the output -->
+            <!-- <pattern>%date{YYYY-MM-dd HH:mm:ss} %-5level %-16logger | %message%n</pattern> -->
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+    </appender>
+
+    <!-- Debug logs file appender -->
+    <appender name="DEBUG_FILE" class="ch.qos.logback.core.FileAppender">
+        <file>${HOME}/.godzilla/logs/debug.log</file>
+        <encoder>
+            <pattern>%date{YYYY-MM-dd HH:mm:ss.SSS} %-5level | %message%n</pattern>
+        </encoder>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>DEBUG</level>
+        </filter>
+    </appender>
+
+    <!-- Root logger -->
+    <root level="DEBUG">
+        <appender-ref ref="STDOUT"/>
+        <appender-ref ref="INFO_FILE"/>
+        <appender-ref ref="DEBUG_FILE"/>
+    </root>
+</configuration>

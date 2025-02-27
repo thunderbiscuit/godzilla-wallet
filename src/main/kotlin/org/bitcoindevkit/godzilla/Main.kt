@@ -16,6 +16,7 @@ import org.bitcoindevkit.godzilla.presentation.ui.App
 import org.bitcoindevkit.godzilla.presentation.ui.NewSaleDialog
 import org.bitcoindevkit.godzilla.presentation.viewmodels.MainViewModel
 import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletAction
+import org.slf4j.LoggerFactory
 
 val GodzillaTheme = buildComposeTheme { }
 
@@ -36,6 +37,11 @@ fun main() {
             resizable = false,
             state = WindowState(width = 900.dp, height = 700.dp),
         ) {
+            val logger = LoggerFactory.getLogger("godzilla.Main")
+            logger.info("Hello, Godzilla!")
+            logger.info("Info for the log file.")
+            logger.debug("New debug message for the debug log file.")
+
             // This variable holds the state of the dialog (visible or hidden)
             val dialogState = rememberDialogState()
 

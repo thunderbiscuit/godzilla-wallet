@@ -35,12 +35,15 @@ dependencies {
     // QR Codes
     implementation("com.google.zxing:core:3.5.3")
     implementation("com.google.zxing:javase:3.5.3")
+
+    // Logging
+    implementation("ch.qos.logback:logback-classic:1.5.16")
 }
 
 compose.resources {
     customDirectory(
         sourceSetName = "main",
-        directoryProvider = provider { layout.projectDirectory.dir("src/main/resources") }
+        directoryProvider = provider { layout.projectDirectory.dir("src/main/resources/compose/") }
     )
 }
 
