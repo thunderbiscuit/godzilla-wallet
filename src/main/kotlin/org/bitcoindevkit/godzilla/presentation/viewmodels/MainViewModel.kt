@@ -23,7 +23,7 @@ import org.bitcoindevkit.godzilla.presentation.viewmodels.mvi.WalletState
 import org.bitcointools.bip21.Bip21URI
 import org.bitcointools.bip21.parameters.Amount
 import org.bitcointools.bip21.parameters.Label
-import org.rustbitcoin.bitcoin.Network
+import org.bitcoindevkit.Network
 
 /*
  * This application uses the MVI pattern of domain level state management for composables. Composables are passed the

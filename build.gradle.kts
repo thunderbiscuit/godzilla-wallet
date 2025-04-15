@@ -29,7 +29,7 @@ dependencies {
     implementation("com.composables:icons-lucide:1.0.0")
 
     // Bitcoin
-    implementation("org.bitcoindevkit:bdk-jvm:1.0.0-KYOTO")
+    implementation("org.bitcoindevkit:bdk-jvm:1.2.0")
     implementation("org.kotlinbitcointools:bip21:0.0.5-SNAPSHOT")
 
     // QR Codes

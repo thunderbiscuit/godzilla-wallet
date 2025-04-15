@@ -5,9 +5,9 @@
 
 package org.bitcoindevkit.godzilla.domain
 
-import org.bitcoindevkit.Client
+import org.bitcoindevkit.CbfClient
 import org.bitcoindevkit.IpAddress
-import org.bitcoindevkit.LightClientBuilder
+import org.bitcoindevkit.CbfBuilder
 import org.bitcoindevkit.Log
 import org.bitcoindevkit.Peer
 import org.bitcoindevkit.ScanType
@@ -15,7 +15,7 @@ import org.bitcoindevkit.Warning
 import java.io.File
 
 class CbfNode(private val wallet: Wallet) {
-    private var kyotoClient: Client? = null
+    private var kyotoClient: CbfClient? = null
 
     fun startKyoto() {
         println("Starting Kyoto node")
@@ -27,7 +27,7 @@ class CbfNode(private val wallet: Wallet) {
         val kyotoDir = ".godzilla/kyotodata/"
         val directory = File(homeDir, kyotoDir)
 
-        val (client, node) = LightClientBuilder()
+        val (client, node) = CbfBuilder()
             .dataDir(directory.path)
             .peers(peers)
             .connections(1u)

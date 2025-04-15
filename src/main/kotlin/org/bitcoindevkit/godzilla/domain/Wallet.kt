@@ -7,7 +7,7 @@ package org.bitcoindevkit.godzilla.domain
 
 import org.bitcoindevkit.Connection
 import org.bitcoindevkit.Descriptor
-import org.rustbitcoin.bitcoin.Network
+import org.bitcoindevkit.Network
 import org.bitcoindevkit.Wallet as BdkJvmWallet
 
 /*
